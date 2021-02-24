@@ -78,17 +78,17 @@ let profile = null
 
 async function main() {
   
-  getUserProfileDev()
-  renderProfile()
+  // getUserProfileDev()
+  // renderProfile()
 
-  // await liff.init({ liffId: "1655693870-mVgMeXdz" })
-  // liff.ready.then(() => {
-  //   if(!liff.isLoggedIn()) {
-  //     liff.login()
-  //   } else {
-  //     getUserProfile()
-  //   }
-  // })
+  await liff.init({ liffId: "1655693870-mVgMeXdz" })
+  liff.ready.then(() => {
+    if(!liff.isLoggedIn()) {
+      liff.login()
+    } else {
+      getUserProfile()
+    }
+  })
 
   
 }
@@ -98,10 +98,8 @@ btnSubmit.onclick = () => {
 
 function sendMsg() {
   const frm = document.forms.frmsubmit
-  console.log(frm)
   const employeeNo = frm.employeeNoInput.value
   const email = frm.emailInput.value
-  console.log(profile)
   const params = {
     LINEUserId : profile.userId,
     displayName : profile.displayName,
