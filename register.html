@@ -115,7 +115,7 @@ function sendMsg() {
     method: 'post',
     url: url,
     data: params
-  })
+  }).then(data => alert(data)).catch(err => alert(err))
     
   document.getElementById("params").innerHTML = JSON.stringify(params)
 }
