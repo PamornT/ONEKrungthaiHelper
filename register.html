@@ -100,7 +100,7 @@ function sendMsg() {
   }
 
   axios({
-    method: 'get',
+    method: 'POST',
     url: url,
     data: params
   }).then(data => alert(data)).catch(err => alert(err))
