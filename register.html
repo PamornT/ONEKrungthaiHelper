@@ -47,8 +47,8 @@
       </div>
     
       <div class="six columns">
-        <label for="exampleRecipientInput">อีเมล์</label>
-        <input class="u-full-width" type="email" placeholder="xxx@krungthai.com" name="emailInput">
+        <label for="exampleRecipientInput">เบอร์มือถือ</label>
+        <input class="u-full-width" type="text" name="mobileInput">
       </div>
     </div><br>
     <input class="button-primary" type="button" value="Submit" id="btnSubmit" style="display:block; margin:0 auto;">
@@ -58,22 +58,14 @@
   <span id="params"></span>
 
 
-  <script type="text/javascript">
+<script type="text/javascript">
   
-// Body element
 const body = document.getElementById('body')
-
-// Button elements
 const btnSubmit = document.getElementById("btnSubmit")
-
-// // Profile elements
 const pictureUrl = document.getElementById("pictureUrl")
 const displayName = document.getElementById("displayName")
 const os = document.getElementById("os")
-
-// QR element
-// const code = document.getElementById("code")
-// const friendShip = document.getElementById("friendShip")
+const url='https://script.google.com/a/macros/krungthai.com/s/AKfycbz3VmW5Qx2X0KmuepFUseABIArRZhJ1rdpKEXx7ZXNREcQ3YWiSMN7W/exec';
 let profile = null
 
 async function main() {
@@ -89,8 +81,6 @@ async function main() {
       getUserProfile()
     }
   })
-
-  
 }
 btnSubmit.onclick = () => {
   sendMsg()
@@ -99,20 +89,18 @@ btnSubmit.onclick = () => {
 function sendMsg() {
   const frm = document.forms.frmsubmit
   const employeeNo = frm.employeeNoInput.value
-  const email = frm.emailInput.value
+  const mobile = frm.mobileInput.value
   const params = {
     LINEUserId : profile.userId,
     displayName : profile.displayName,
     picture : profile.pictureUrl,
     Device: profile.os,
     employeeNo: employeeNo,
-    email: email
+    mobile: mobile
   }
-  
-  const url='https://script.google.com/a/macros/krungthai.com/s/AKfycbz3VmW5Qx2X0KmuepFUseABIArRZhJ1rdpKEXx7ZXNREcQ3YWiSMN7W/exec';
-  
+
   axios({
-    method: 'post',
+    method: 'get',
     url: url,
     data: params
   }).then(data => alert(data)).catch(err => alert(err))
