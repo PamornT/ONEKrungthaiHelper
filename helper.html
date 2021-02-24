@@ -9,6 +9,9 @@
 <body id="body">
   <section id="profile">
     <img id="pictureUrl" src="https://mokmoon.com/images/ic_liff.png">
+    <p id="userId"></p>
+    <p id="displayName"></p>
+    <p id="os"></p>
   </section>
 
   <section id="feature">
@@ -31,11 +34,10 @@ const body = document.getElementById('body')
 // const btnOpenWindow = document.getElementById("btnOpenWindow")
 
 // // Profile elements
-// const email = document.getElementById("email")
-// const userId = document.getElementById("userId")
-// const pictureUrl = document.getElementById("pictureUrl")
-// const displayName = document.getElementById("displayName")
-// const statusMessage = document.getElementById("statusMessage")
+const userId = document.getElementById("userId")
+const pictureUrl = document.getElementById("pictureUrl")
+const displayName = document.getElementById("displayName")
+const os = document.getElementById("os")
 
 // QR element
 // const code = document.getElementById("code")
@@ -43,12 +45,23 @@ const body = document.getElementById('body')
 
 async function main() {
    await liff.init({ liffId: "1655693870-mVgMeXdz" })
+
+   getUserProfile()
   
    switch (liff.getOS()) {
       case "android": body.style.backgroundColor = "#d1f5d3"; break
       case "ios": body.style.backgroundColor = "#eeeeee"; break
     }
 }
+
+async function getUserProfile() {
+  const profile = await liff.getProfile()
+  pictureUrl.src = profile.pictureUrl
+  userId.innerHTML = "<b>userId:</b> " + profile.userId
+  displayName.innerHTML = "<b>displayName:</b> " + profile.displayName
+  os.innerHTML = liff.getOS()
+}
+
 main()
   </script>
 </body>
