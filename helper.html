@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0,viewport-fit=cover">
   <title>LIFF: LINE Front-end Framework</title>
   <script src="https://static.line-scdn.net/liff/edge/versions/2.8.0/sdk.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mini.css/3.0.1/mini-default.min.css">
 </head>
 <body id="body">
   <section id="profile" style="display:none">
@@ -46,17 +47,17 @@ let profile = null
 
 async function main() {
   
-  // getUserProfileDev()
-  // renderProfile()
+  getUserProfileDev()
+  renderProfile()
 
-  await liff.init({ liffId: "1655693870-mVgMeXdz" })
-  liff.ready.then(() => {
-    if(!liff.isLoggedIn()) {
-      liff.login()
-    } else {
-      getUserProfile()
-    }
-  })
+  // await liff.init({ liffId: "1655693870-mVgMeXdz" })
+  // liff.ready.then(() => {
+  //   if(!liff.isLoggedIn()) {
+  //     liff.login()
+  //   } else {
+  //     getUserProfile()
+  //   }
+  // })
 
   
 }
