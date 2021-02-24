@@ -5,15 +5,40 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0,viewport-fit=cover">
   <title>LIFF: LINE Front-end Framework</title>
   <script src="https://static.line-scdn.net/liff/edge/versions/2.8.0/sdk.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mini.css/3.0.1/mini-default.min.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/custom.css">
 </head>
 <body id="body">
-  <section id="profile" style="display:none">
-    <img id="pictureUrl" src="https://mokmoon.com/images/ic_liff.png" width="100"><br>
-    User ID : <span id="userId"></span><br>
-    Display Name : <span id="displayName"></span><br>
-    OS : <span id="os"></span>
-  </section>
+ 
+
+  <div class="section hero" id="profilePic">
+    <div class="container">
+      <div class="row">
+        <div class="twelve-half column phones">
+          <img id="pictureUrl" src="https://mokmoon.com/images/ic_liff.png" class="phone">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="profile">
+    <div class="container">
+      <div class="row">
+        <div class="twelve-half column">
+          <h5 style="margin-bottom:0.4rem"><span id="displayName" class="displayName"></span></h5>
+        </div>
+      </div>
+      <div class="row">
+        <div class="twelve-half column">
+          <h7>Device : <span id="os" class="os"></span></h7>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <span id="userId"></span>
+
 
   <section id="feature">
   </section>
