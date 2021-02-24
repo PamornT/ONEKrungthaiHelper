@@ -44,14 +44,17 @@ const os = document.getElementById("os")
 // const friendShip = document.getElementById("friendShip")
 
 async function main() {
-   await liff.init({ liffId: "1655693870-mVgMeXdz" })
+  await liff.init({ liffId: "1655693870-mVgMeXdz" })
 
-   getUserProfile()
+  liff.ready.then(() => {
+    getUserProfile()
+  })
+   
   
-   switch (liff.getOS()) {
-      case "android": body.style.backgroundColor = "#d1f5d3"; break
-      case "ios": body.style.backgroundColor = "#eeeeee"; break
-    }
+  //  switch (liff.getOS()) {
+  //     case "android": body.style.backgroundColor = "#d1f5d3"; break
+  //     case "ios": body.style.backgroundColor = "#eeeeee"; break
+  //   }
 }
 
 async function getUserProfile() {
