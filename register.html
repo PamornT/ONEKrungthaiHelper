@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0,viewport-fit=cover">
   <title>ONE Krungthai Helper</title>
   <script src="https://static.line-scdn.net/liff/edge/versions/2.8.0/sdk.js"></script>
-  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <link rel="stylesheet" href="css/skeleton.css">
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/custom.css">
@@ -66,24 +65,62 @@ const pictureUrl = document.getElementById("pictureUrl")
 const displayName = document.getElementById("displayName")
 const os = document.getElementById("os")
 const url='https://script.google.com/a/macros/krungthai.com/s/AKfycbz3VmW5Qx2X0KmuepFUseABIArRZhJ1rdpKEXx7ZXNREcQ3YWiSMN7W/exec';
+// const url='https://script.google.com/macros/s/AKfycbw1zc61pb5DTyOKSslwS_bEoIrUZ65yJ5wIPJ5NDDfc37eYLsmsaTfqxw/exec'
 let profile = null
+
+var $jsonp = (function(){
+  var that = {};
+
+  that.send = function(src, options) {
+    var callback_name = options.callbackName || 'callback',
+      on_success = options.onSuccess || function(){},
+      on_timeout = options.onTimeout || function(){},
+      timeout = options.timeout || 10; // sec
+
+    var timeout_trigger = window.setTimeout(function(){
+      window[callback_name] = function(){};
+      on_timeout();
+    }, timeout * 1000);
+
+    window[callback_name] = function(data){
+      window.clearTimeout(timeout_trigger);
+      on_success(data);
+    }
+
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.async = true;
+    script.src = src;
+
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  return that;
+})();
 
 async function main() {
   
-  // getUserProfileDev()
-  // renderProfile()
+  getUserProfileDev()
+  renderProfile()
 
-  await liff.init({ liffId: "1655693870-mVgMeXdz" })
-  liff.ready.then(() => {
-    if(!liff.isLoggedIn()) {
-      liff.login()
-    } else {
-      getUserProfile()
-    }
-  })
+  // await liff.init({ liffId: "1655693870-mVgMeXdz" })
+  // liff.ready.then(() => {
+  //   if(!liff.isLoggedIn()) {
+  //     liff.login()
+  //   } else {
+  //     getUserProfile()
+  //   }
+  // })
 }
 btnSubmit.onclick = () => {
   sendMsg()
+}
+
+function handleStuff(data) {
+  alert(data)
+  const frm = document.forms.frmsubmit
+  frm.employeeNoInput.value = ''
+  frm.mobileInput.value = ''
 }
 
 function sendMsg() {
@@ -99,13 +136,20 @@ function sendMsg() {
     mobile: mobile
   }
 
-  axios({
-    method: 'POST',
-    url: url,
-    data: params
-  }).then(data => alert(data)).catch(err => alert(err))
-    
-  document.getElementById("params").innerHTML = JSON.stringify(params)
+
+  $jsonp.send(`${url}?action=register&LINEUserId=${profile.userId}&Device=${profile.os}&employeeNo=${employeeNo}&mobile=${mobile}&picture=${profile.pictureUrl}&callback=handleStuff`, {
+      callbackName: 'handleStuff',
+      onSuccess: function(json){
+          console.log('success!', json);
+      },
+      onTimeout: function(){
+          console.log('timeout!');
+      },
+      timeout: 10
+      
+  });
+
+  // document.getElementById("params").innerHTML = JSON.stringify(params)
 }
 
 function renderProfile() {
