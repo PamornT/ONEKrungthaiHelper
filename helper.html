@@ -42,33 +42,43 @@ const os = document.getElementById("os")
 // QR element
 // const code = document.getElementById("code")
 // const friendShip = document.getElementById("friendShip")
+let profile = null
 
 async function main() {
-  await liff.init({ liffId: "1655693870-mVgMeXdz" })
+  
+  // getUserProfileDev()
+  // renderProfile()
 
+  await liff.init({ liffId: "1655693870-mVgMeXdz" })
   liff.ready.then(() => {
     if(!liff.isLoggedIn()) {
       liff.login()
     } else {
       getUserProfile()
+      renderProfile()
     }
   })
-   
+
   
-  //  switch (liff.getOS()) {
-  //     case "android": body.style.backgroundColor = "#d1f5d3"; break
-  //     case "ios": body.style.backgroundColor = "#eeeeee"; break
-  //   }
+}
+
+function renderProfile() {
+  document.getElementById("profile").style.display = 'block'
+  pictureUrl.src = profile.pictureUrl
+  console.log(profile.pictureUrl)
+  userId.innerHTML = profile.userId
+  displayName.innerHTML = profile.displayName
+  os.innerHTML = profile.os
+}
+
+function getUserProfileDev() {
+  profile = {userId: "U0157acd79f32f7abc5888d4fbb24f9ae", displayName: "Pamorn Trivorrarat", pictureUrl: "https://profile.line-scdn.net/0hehdTWCiWOkdZLRKhl6VFEGVoNCouAzwPIUl2JX4pNnQnSHsUMRx8dCgoNCUmTS1BMRhzKHQpMyN9", statusMessage: "ใช้ไลน์อันนี้นะคร้าบ", os: 'ios'}
 }
 
 async function getUserProfile() {
-  const profile = await liff.getProfile()
-  console.log(profile)
-  document.getElementById("profile").style.display = 'block'
-  pictureUrl.src = profile.pictureUrl
-  userId.innerHTML = profile.userId
-  displayName.innerHTML = profile.displayName
-  os.innerHTML = liff.getOS()
+  profile = await liff.getProfile()
+  profile['os'] = liff.getOS()
+  
 }
 
 main()
