@@ -3,8 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0,viewport-fit=cover">
-  <title>ONE Krungthai</title>
+  <title>ONE Krungthai Helper</title>
   <script src="https://static.line-scdn.net/liff/edge/versions/2.8.0/sdk.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <link rel="stylesheet" href="css/skeleton.css">
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/custom.css">
@@ -37,30 +38,35 @@
     </div>
   </div>
 
-  <span id="userId"></span>
+  <div class="container">
+  <form id="frmsubmit" name="frmsubmit">
+    <div class="row">
+      <div class="six columns">
+        <label for="exampleEmailInput">รหัสพนักงาน</label>
+        <input class="u-full-width" type="text" name="employeeNoInput">
+      </div>
+    
+      <div class="six columns">
+        <label for="exampleRecipientInput">อีเมล์</label>
+        <input class="u-full-width" type="email" placeholder="xxx@krungthai.com" name="emailInput">
+      </div>
+    </div><br>
+    <input class="button-primary" type="button" value="Submit" id="btnSubmit" style="display:block; margin:0 auto;">
+  </form>
+  </div>
+
+  <span id="params"></span>
 
 
-  <section id="feature">
-  </section>
-
-  <section id="button">
-  </section>
   <script type="text/javascript">
   
 // Body element
 const body = document.getElementById('body')
 
 // Button elements
-// const btnSend = document.getElementById("btnSend")
-// const btnClose = document.getElementById("btnClose")
-// const btnShare = document.getElementById("btnShare")
-// const btnLogIn = document.getElementById("btnLogIn")
-// const btnLogOut = document.getElementById("btnLogOut")
-// const btnScanCode = document.getElementById("btnScanCode")
-// const btnOpenWindow = document.getElementById("btnOpenWindow")
+const btnSubmit = document.getElementById("btnSubmit")
 
 // // Profile elements
-const userId = document.getElementById("userId")
 const pictureUrl = document.getElementById("pictureUrl")
 const displayName = document.getElementById("displayName")
 const os = document.getElementById("os")
@@ -72,26 +78,53 @@ let profile = null
 
 async function main() {
   
-  // getUserProfileDev()
-  // renderProfile()
+  getUserProfileDev()
+  renderProfile()
 
-  await liff.init({ liffId: "1655693870-mVgMeXdz" })
-  liff.ready.then(() => {
-    if(!liff.isLoggedIn()) {
-      liff.login()
-    } else {
-      getUserProfile()
-    }
-  })
+  // await liff.init({ liffId: "1655693870-mVgMeXdz" })
+  // liff.ready.then(() => {
+  //   if(!liff.isLoggedIn()) {
+  //     liff.login()
+  //   } else {
+  //     getUserProfile()
+  //   }
+  // })
 
   
+}
+btnSubmit.onclick = () => {
+  sendMsg()
+}
+
+function sendMsg() {
+  const frm = document.forms.frmsubmit
+  console.log(frm)
+  const employeeNo = frm.employeeNoInput.value
+  const email = frm.emailInput.value
+  console.log(profile)
+  const params = {
+    LINEUserId : profile.userId,
+    displayName : profile.displayName,
+    picture : profile.pictureUrl,
+    Device: profile.os,
+    employeeNo: employeeNo,
+    email: email
+  }
+  
+  const url='https://script.google.com/a/macros/krungthai.com/s/AKfycbz3VmW5Qx2X0KmuepFUseABIArRZhJ1rdpKEXx7ZXNREcQ3YWiSMN7W/exec';
+  
+  axios({
+    method: 'post',
+    url: url,
+    data: params
+  })
+    
+  document.getElementById("params").innerHTML = JSON.stringify(params)
 }
 
 function renderProfile() {
   document.getElementById("profile").style.display = 'block'
   pictureUrl.src = profile.pictureUrl
-  console.log(profile.pictureUrl)
-  userId.innerHTML = profile.userId
   displayName.innerHTML = profile.displayName
   os.innerHTML = profile.os
 }
