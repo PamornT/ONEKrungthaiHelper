@@ -100,17 +100,17 @@ var $jsonp = (function(){
 
 async function main() {
   
-  getUserProfileDev()
-  renderProfile()
+  // getUserProfileDev()
+  // renderProfile()
 
-  // await liff.init({ liffId: "1655693870-mVgMeXdz" })
-  // liff.ready.then(() => {
-  //   if(!liff.isLoggedIn()) {
-  //     liff.login()
-  //   } else {
-  //     getUserProfile()
-  //   }
-  // })
+  await liff.init({ liffId: "1655693870-mVgMeXdz" })
+  liff.ready.then(() => {
+    if(!liff.isLoggedIn()) {
+      liff.login()
+    } else {
+      getUserProfile()
+    }
+  })
 }
 btnSubmit.onclick = () => {
   sendMsg()
