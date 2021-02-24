@@ -7,11 +7,11 @@
   <script src="https://static.line-scdn.net/liff/edge/versions/2.8.0/sdk.js"></script>
 </head>
 <body id="body">
-  <section id="profile">
-    <img id="pictureUrl" src="https://mokmoon.com/images/ic_liff.png">
-    <p id="userId"></p>
-    <p id="displayName"></p>
-    <p id="os"></p>
+  <section id="profile" style="display:none">
+    <img id="pictureUrl" src="https://mokmoon.com/images/ic_liff.png" width="100">
+    user ID : <p id="userId"></p>
+    Display Name : <p id="displayName"></p>
+    OS : <p id="os"></p>
   </section>
 
   <section id="feature">
@@ -63,9 +63,10 @@ async function main() {
 
 async function getUserProfile() {
   const profile = await liff.getProfile()
+  document.getElementById("profile").style.display = 'block'
   pictureUrl.src = profile.pictureUrl
-  userId.innerHTML = "<b>userId:</b> " + profile.userId
-  displayName.innerHTML = "<b>displayName:</b> " + profile.displayName
+  userId.innerHTML = profile.userId
+  displayName.innerHTML = profile.displayName
   os.innerHTML = liff.getOS()
 }
 
