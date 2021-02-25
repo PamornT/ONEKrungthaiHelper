@@ -109,12 +109,12 @@ function sendMsg() {
   $jsonp.send(`${url}?action=register&LINEUserId=${profile.userId}&Device=${profile.os}&employeeNo=${employeeNo}&mobile=${mobile}&picture=${profile.pictureUrl}&callback=handleStuff`, {
       callbackName: 'handleStuff',
       onSuccess: function(json){
-          console.log('success!', json);
+          alert('success!');
           frm.employeeNoInput.value = ''
           frm.mobileInput.value = ''
       },
       onTimeout: function(){
-          console.log('timeout!');
+          alert('timeout!');
       },
       timeout: 10
       
