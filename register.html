@@ -68,59 +68,28 @@ const url='https://script.google.com/a/macros/krungthai.com/s/AKfycbz3VmW5Qx2X0K
 // const url='https://script.google.com/macros/s/AKfycbw1zc61pb5DTyOKSslwS_bEoIrUZ65yJ5wIPJ5NDDfc37eYLsmsaTfqxw/exec'
 let profile = null
 
-var $jsonp = (function(){
-  var that = {};
-
-  that.send = function(src, options) {
-    var callback_name = options.callbackName || 'callback',
-      on_success = options.onSuccess || function(){},
-      on_timeout = options.onTimeout || function(){},
-      timeout = options.timeout || 10; // sec
-
-    var timeout_trigger = window.setTimeout(function(){
-      window[callback_name] = function(){};
-      on_timeout();
-    }, timeout * 1000);
-
-    window[callback_name] = function(data){
-      window.clearTimeout(timeout_trigger);
-      on_success(data);
-    }
-
-    var script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.async = true;
-    script.src = src;
-
-    document.getElementsByTagName('head')[0].appendChild(script);
-  }
-
-  return that;
-})();
-
 async function main() {
   
+  profile = {
+    userId: getParameterByName('userId'),
+    displayName: getParameterByName('displayName'), 
+    pictureUrl: getParameterByName('pictureUrl'), 
+    os: getParameterByName('os')
+  }
   // getUserProfileDev()
-  // renderProfile()
+  renderProfile()
 
-  await liff.init({ liffId: "1655693870-mVgMeXdz" })
-  liff.ready.then(() => {
-    if(!liff.isLoggedIn()) {
-      liff.login()
-    } else {
-      getUserProfile()
-    }
-  })
+  // await liff.init({ liffId: "1655693870-mVgMeXdz" })
+  // liff.ready.then(() => {
+  //   if(!liff.isLoggedIn()) {
+  //     liff.login()
+  //   } else {
+  //     getUserProfile()
+  //   }
+  // })
 }
 btnSubmit.onclick = () => {
   sendMsg()
-}
-
-function handleStuff(data) {
-  alert(data)
-  const frm = document.forms.frmsubmit
-  frm.employeeNoInput.value = ''
-  frm.mobileInput.value = ''
 }
 
 function sendMsg() {
@@ -141,6 +110,8 @@ function sendMsg() {
       callbackName: 'handleStuff',
       onSuccess: function(json){
           console.log('success!', json);
+          frm.employeeNoInput.value = ''
+          frm.mobileInput.value = ''
       },
       onTimeout: function(){
           console.log('timeout!');
@@ -170,6 +141,45 @@ async function getUserProfile() {
   renderProfile()
   
 }
+
+function getParameterByName(name, url = window.location.href) {
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
+var $jsonp = (function(){
+  var that = {};
+
+  that.send = function(src, options) {
+    var callback_name = options.callbackName || 'callback',
+      on_success = options.onSuccess || function(){},
+      on_timeout = options.onTimeout || function(){},
+      timeout = options.timeout || 10; // sec
+
+    var timeout_trigger = window.setTimeout(function(){
+      window[callback_name] = function(){};
+      on_timeout();
+    }, timeout * 1000);
+
+    window[callback_name] = function(data){
+      window.clearTimeout(timeout_trigger);
+      on_success(data);
+    }
+
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.async = true;
+    script.src = src;
+
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  return that;
+})();
 
 main()
   </script>
