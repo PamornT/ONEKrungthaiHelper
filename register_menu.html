@@ -28,35 +28,32 @@ let profile = null
 
 async function main() {
   
-  // getUserProfileDev()
+  getUserProfileDev()
 
-  await liff.init({ liffId: "1655693870-mVgMeXdz" })
-  liff.ready.then(() => {
-    if(!liff.isLoggedIn()) {
-      liff.login()
-    } else {
-      getUserProfile()
-    }
-  })
+  // await liff.init({ liffId: "1655693870-mVgMeXdz" })
+  // liff.ready.then(() => {
+  //   if(!liff.isLoggedIn()) {
+  //     liff.login()
+  //   } else {
+  //     getUserProfile()
+  //   }
+  // })
 }
 btnSubmit.onclick = () => {
   liff.openWindow({
     url: `https://liff.line.me/1655693870-l8ZN4xdD?userId=${profile.userId}&displayName=${profile.displayName}&pictureUrl=${profile.pictureUrl}&os=${profile.os}`,
-    external: true
+    // external: true
   });
   liff.closeWindow();
 }
 
 function getUserProfileDev() {
   profile = {userId: "U0157acd79f32f7abc5888d4fbb24f9ae", displayName: "Pamorn Trivorrarat", pictureUrl: "https://profile.line-scdn.net/0hehdTWCiWOkdZLRKhl6VFEGVoNCouAzwPIUl2JX4pNnQnSHsUMRx8dCgoNCUmTS1BMRhzKHQpMyN9", statusMessage: "ใช้ไลน์อันนี้นะคร้าบ", os: 'ios'}
-  renderProfile()
 }
 
 async function getUserProfile() {
   profile = await liff.getProfile()
   profile['os'] = await liff.getOS()
-  renderProfile()
-  
 }
 
 main()
