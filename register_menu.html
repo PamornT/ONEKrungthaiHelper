@@ -28,16 +28,16 @@ let profile = null
 
 async function main() {
   
-  getUserProfileDev()
+  // getUserProfileDev()
 
-  // await liff.init({ liffId: "1655693870-mVgMeXdz" })
-  // liff.ready.then(() => {
-  //   if(!liff.isLoggedIn()) {
-  //     liff.login()
-  //   } else {
-  //     getUserProfile()
-  //   }
-  // })
+  await liff.init({ liffId: "1655693870-mVgMeXdz" })
+  liff.ready.then(() => {
+    if(!liff.isLoggedIn()) {
+      liff.login()
+    } else {
+      getUserProfile()
+    }
+  })
 }
 btnSubmit.onclick = () => {
   liff.openWindow({
